@@ -1,7 +1,8 @@
 from itertools import accumulate, chain
 import sys
+from typing import List
 
-def main(nums: list[int], queries):
+def main(nums: List[int], queries):
   prefix_sum = list(accumulate(chain([0],nums)))
   res = []
   for l,r in queries:

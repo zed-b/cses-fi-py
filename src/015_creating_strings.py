@@ -1,4 +1,6 @@
-def next_permutation(arr):
+from typing import List
+
+def next_permutation(arr: List):
     n = len(arr)
     i = n - 1
     while i > 0 and arr[i-1] >= arr[i]: i -= 1

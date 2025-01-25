@@ -1,4 +1,6 @@
 # TODO: TLE
+
+MX = 10**10
 class SegmentTree:
     class Node:
         def __init__(self, val=0):
@@ -14,10 +16,11 @@ class SegmentTree:
         self.build(0, 0, self.n-1, values)
 
     def build(self, at, tl, tr, values):
-        self.nodes[at] = SegmentTree.Node(next(values) if tl==tr else 0)
-        if tl < tr:
+        if tl == tr:
+          self.nodes[at] = SegmentTree.Node(next(values))
+        else:
             tm = tl + (tr-tl) // 2
-            self.nodes[at].merge(self.build(at*2+1, tl, tm, values),
+            self.nodes[at] = SegmentTree.Node().merge(self.build(at*2+1, tl, tm, values),
                 self.build(at*2+2, tm+1, tr, values))
         return self.nodes[at]
 
@@ -25,8 +28,8 @@ class SegmentTree:
         if ql<=tl and tr<=qr:
             return self.nodes[tat].val
         tm = tl + (tr-tl)//2
-        l = self._query(ql,qr,tat*2+1,tl, tm) if ql <= tm else 0
-        r = self._query(ql,qr,tat*2+2,tm+1, tr) if tm + 1 <= qr else 0
+        l = self._query(ql,qr,tat*2+1,tl, tm) if ql <= tm else MX
+        r = self._query(ql,qr,tat*2+2,tm+1, tr) if tm + 1 <= qr else MX
         return min(l, r)
 
     def query(self, l, r):

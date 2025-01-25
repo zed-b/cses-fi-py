@@ -1,4 +1,6 @@
-def main(nums: list[int]):
+from typing import List
+
+def main(nums: List[int]):
   n = len(nums)
   partial = [0] * (1<<n)
   sum = 0
