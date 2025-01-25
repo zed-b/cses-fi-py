@@ -1,14 +1,9 @@
 from typing import List
+
 class Fenwick:
-  def __init__(self, n, vals):
+  def __init__(self, n):
     self.n = n + 1
     self.vals = [0] * self.n
-    for index, val in enumerate(vals):
-      cur = index + 1
-      self.vals[cur] += val
-      nxt = cur + (cur & (-cur))
-      if (nxt < self.n):
-        self.vals[nxt] += self.vals[cur]
 
   def add(self, at, val):
     while at < self.n:
@@ -23,15 +18,14 @@ class Fenwick:
     return res
 
 def main(n, nums, queries: List[List[int]]):
-  bit = Fenwick(n, nums)
+  bit = Fenwick(n)
   res = []
   for q in queries:
     if q[0] == 1:
-      delta = q[2] - nums[q[1]-1]
-      bit.add(q[1], delta)
-      nums[q[1]-1] += delta
+      bit.add(q[1], q[3])
+      bit.add(q[2]+1, -q[3])
     else:
-      res.append(bit.prefix_sum(q[2]) - bit.prefix_sum(q[1]-1))
+      res.append(bit.prefix_sum(q[1]) + nums[q[1]-1])
   print('\n'.join(map(str, res)))
 
 if __name__ == "__main__":
