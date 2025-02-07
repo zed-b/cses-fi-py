@@ -1,12 +1,9 @@
 #TODO: TLE
 
-from array import array
-
-
 class Fenwick:
   def __init__(self, n):
     self.n = n + 1
-    self.vals = array('l', (0 for _ in range(self.n)))
+    self.vals = [0] * self.n
     self.sz = 0
 
   def add(self, at, val):
@@ -38,8 +35,8 @@ def solve(arr):
 
   events.sort()
 
-  over = array('l', (0 for _ in range(n)))
-  under = array('l', (0 for _ in range(n)))
+  over = [''] * n
+  under = [''] * n
 
   cur,passed, l = Fenwick(len(comp)), Fenwick(len(comp)), 0
 
@@ -49,7 +46,7 @@ def solve(arr):
       if levent == 'e':
         lbegin = comp[arr[lindex][0]]
         cur.add(lbegin + 1, -1)
-        over[lindex] = 1 if passed.sz - passed.prefix_sum(lbegin) - 1 > 0 else 0
+        over[lindex] = str(passed.sz - passed.prefix_sum(lbegin) - 1)
       l += 1
     if r == n * 2: break
     [rpos, rindex, revent] = events[r]
@@ -57,11 +54,11 @@ def solve(arr):
       cur.add(comp[rpos]+1, 1)
     elif revent == 'e':
       rbegin = comp[arr[rindex][0]]
-      under[rindex] = 1 if cur.prefix_sum(rbegin+1) - 1 > 0 else 0
+      under[rindex] = str(cur.prefix_sum(rbegin+1) - 1)
       passed.add(rbegin+1, 1)
 
-  print(' '.join(map(str,over)))
-  print(' '.join(map(str,under)))
+  print(' '.join(over))
+  print(' '.join(under))
 
 
 if __name__ == "__main__":
